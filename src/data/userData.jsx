@@ -1,17 +1,17 @@
 const userdata = [
     {
-        firstname: "Dharmendra",
-        lastname: "Jadon",
-        email: "dharmendrajadon@gmail.com",
-        password: "Dharmendra123@",
+        firstname: "Operator",
+        lastname: "Operator",
+        email: "operator@gmail.com",
+        password: "Operator123@",
         type: 1
     }, 
     {
-        firstname: "Demo",
-        lastname: "User 1",
-        email: "demouser1@gmail.com",
-        password: "Demo123@",
-        type: 1
+        firstname: "Super",
+        lastname: "Visor",
+        email: "supervisor@gmail.com",
+        password: "Supervisor123@",
+        type: 3
     }, 
     {
         firstname: "Admin",

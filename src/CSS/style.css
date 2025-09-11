@@ -274,6 +274,11 @@ input:focus {
   column-gap: 10px;
 }
 
+.opt-overview-content {
+  flex-direction: column;
+  width: 45%;
+}
+
 .production-overview-tile, .graph-donut-tile { 
   display: flex;
   flex-direction: column;
@@ -288,6 +293,14 @@ input:focus {
   gap: 7px;
 }
 
+.opt-tile {
+  min-width: 400px;
+}
+
+.type{
+  font-size: 13px;
+  font-weight: 600;
+}
 .production-overview-tile-title {
   display: flex;
   flex-direction: row;
@@ -303,10 +316,12 @@ input:focus {
 .production-overview-tile-value {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   font-size: 28px;
   color: #264D78;
   font-weight: 800;
   width: 85%;
+  gap: 5px;
 }
 
 .role-container {
@@ -321,7 +336,7 @@ input:focus {
 }
 
 .login-role-container {
-  width: 43%;
+  width: 26%;
 }
 
 .admin-container {
@@ -934,6 +949,14 @@ input[button] {
 
 .donut-tile {
   width: 30%;
+}
+
+.donut-opt-tile {
+  width: 320px;
+}
+
+.opt-graph-tile {
+  width: 815px;
 }
 
 .title-img {

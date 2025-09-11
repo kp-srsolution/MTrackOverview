@@ -96,8 +96,10 @@ const LoginPage = () => {
           localStorage.setItem("type", userdata[i].type);
           if (userdata[i].type == 4) {
             navigate("/admin/dashboard");
+          } else if(userdata[i].type == 3) {
+            navigate("/supervisor/dashboard");
           } else {
-            navigate("/dashboard");
+            navigate("/operator/dashboard");
           }
           break;
         }
@@ -141,7 +143,8 @@ const LoginPage = () => {
             <div className="form-input-cont">
               <label htmlFor="role">Select your role</label>
               <div className="role-selection-bar">
-                <div className="role-container login-role-container" style={role === 1 ? { color: "#efefef", backgroundColor: "#264D78", fontWeight: "700" } : { color: "#090909", backgroundColor: "transparent", fontWeight: "400" }} onClick={() => handleRoles(1)}>User</div>
+                <div className="role-container login-role-container" style={role === 1 ? { color: "#efefef", backgroundColor: "#264D78", fontWeight: "700" } : { color: "#090909", backgroundColor: "transparent", fontWeight: "400" }} onClick={() => handleRoles(1)}>Operator</div>
+                <div className="role-container login-role-container" style={role === 3 ? { color: "#efefef", backgroundColor: "#264D78", fontWeight: "700" } : { fontWeight: "400", color: "#090909", backgroundColor: "transparent" }} onClick={() => handleRoles(3)}>Supervisor</div>
                 <div className="role-container login-role-container" style={role === 4 ? { color: "#efefef", backgroundColor: "#264D78", fontWeight: "700" } : { fontWeight: "400", color: "#090909", backgroundColor: "transparent" }} onClick={() => handleRoles(4)}>Admin</div>
               </div>
             </div>

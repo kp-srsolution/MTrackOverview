@@ -128,13 +128,15 @@ export default function Dashboard() {
                         fontSize: "20px",
                         color: "#264D78",
                         paddingLeft: "5px"
-                    }}>Admin</b>
+                    }}>Operator</b>
                 </div>
                 <div className="overview-container">
                     <div className="production-overview">
                         <div className="production-overview-title">Overall Production</div>
-                        <div className="production-overview-content">
-                            <div className="production-overview-tile  opt-tile">
+                        <div className="production-overview-content"  style={{gap: "20px"}}>
+                            <div className="production-overview-tile  opt-tile" style={{
+                                gap: "15px"
+                            }}>
                                 <div className="production-overview-tile-title"><img src={today} alt="" className="title-img" />Today's production</div>
                                 <div className="production-overview-tile-value">21<div className="type">(Pallets)</div></div>
                                 <div className="production-overview-tile-title production-overview-tile-title-small">
@@ -144,7 +146,9 @@ export default function Dashboard() {
                                     3.6% From last day
                                 </div>
                             </div>
-                            <div className="production-overview-tile opt-tile">
+                            <div className="production-overview-tile opt-tile" style={{
+                                gap: "15px"
+                            }}>
                                 <div className="production-overview-tile-title">
                                     <img src={week} alt="" className="title-img" />
                                     This week's production</div>
@@ -156,7 +160,9 @@ export default function Dashboard() {
                                     1.1% From last week
                                 </div>
                             </div>
-                            <div className="production-overview-tile  opt-tile">
+                            <div className="production-overview-tile  opt-tile" style={{
+                                gap: "15px"
+                            }}>
                                 <div className="production-overview-tile-title"><img src={month} alt="" className="title-img" />This month's production</div>
                                 <div className="production-overview-tile-value">621 <div className="type">(Pallets)</div></div>
                                 <div className="production-overview-tile-title production-overview-tile-title-small" style={{
@@ -168,7 +174,9 @@ export default function Dashboard() {
                                     2.3% From last month
                                 </div>
                             </div>
-                            <div className="production-overview-tile  opt-tile">
+                            <div className="production-overview-tile  opt-tile" style={{
+                                gap: "15px"
+                            }}>
                                 <div className="production-overview-tile-title"><img src={year} alt="" className="title-img" />This year's production</div>
                                 <div className="production-overview-tile-value">7397<div className="type">(Pallets)</div></div>
                                 <div className="production-overview-tile-title production-overview-tile-title-small" style={{ color: "red" }}>
@@ -179,7 +187,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className="production-overview-content">
+                        {/* <div className="production-overview-content">
                             <div className="production-overview-tile graph-tile opt-graph-tile">
                                 <div className="production-overview-tile-title" style={{ marginBottom: "20px", justifyContent: "space-between" }}>
                                     <div style={{
@@ -228,46 +236,9 @@ export default function Dashboard() {
                                         isAnimationActive={false} />
                                 </LineChart>
                             </div>
-                            {/* <div className="production-overview-tile donut-tile">
-                                <div className="production-overview-tile-title" style={{ marginBottom: "20px", justifyContent: "space-between" }}>
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        gap: "10px"
-                                    }}>
-                                        <DataSaverOffIcon />
-                                        {
-                                            donutOption === "days" ? "Day " : donutOption === "weeks" ? "Week " : "Month "
-                                        } wise production graph
-                                    </div>
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
-                                        <select
-                                            value={donutOption || "days"}
-                                            className="report-download-otipn-select"
-                                            onChange={(e) =>
-                                                setDonutOption(e.target.value)
-                                            }
-                                        >
-                                            <option value="days">Days</option>
-                                            <option value="weeks">Weeks</option>
-                                            <option value="months">Months</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <DonutChart dataSet={
-                                    donutOption === "days" ? dataSet : donutOption === "weeks" ? weekDataSet : monthDataSet
-                                } option={donutOption} />
-                            </div> */}
-                        </div>
-                        <div className="production-overview-title">Defective (ng) overview</div>
-                        <div style={{
+                        </div> */}
+                        {/* <div className="production-overview-title">Defective (ng) overview</div> */}
+                        {/* <div style={{
                             display: "flex",
                             flexDirection: "row",
                             width: "100%",
@@ -359,7 +330,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                         </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

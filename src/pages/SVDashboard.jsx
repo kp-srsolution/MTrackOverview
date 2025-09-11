@@ -128,12 +128,12 @@ export default function Dashboard() {
                         fontSize: "20px",
                         color: "#264D78",
                         paddingLeft: "5px"
-                    }}>Admin</b>
+                    }}>Supervisor</b>
                 </div>
                 <div className="overview-container">
                     <div className="production-overview">
                         <div className="production-overview-title">Overall Production</div>
-                        <div className="production-overview-content">
+                        <div className="production-overview-content"  style={{gap: "20px"}}>
                             <div className="production-overview-tile  opt-tile">
                                 <div className="production-overview-tile-title"><img src={today} alt="" className="title-img" />Today's production</div>
                                 <div className="production-overview-tile-value">21<div className="type">(Pallets)</div></div>
@@ -179,7 +179,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className="production-overview-content">
+                        {/* <div className="production-overview-content">
                             <div className="production-overview-tile graph-tile opt-graph-tile">
                                 <div className="production-overview-tile-title" style={{ marginBottom: "20px", justifyContent: "space-between" }}>
                                     <div style={{
@@ -228,63 +228,9 @@ export default function Dashboard() {
                                         isAnimationActive={false} />
                                 </LineChart>
                             </div>
-                            {/* <div className="production-overview-tile donut-tile">
-                                <div className="production-overview-tile-title" style={{ marginBottom: "20px", justifyContent: "space-between" }}>
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        gap: "10px"
-                                    }}>
-                                        <DataSaverOffIcon />
-                                        {
-                                            donutOption === "days" ? "Day " : donutOption === "weeks" ? "Week " : "Month "
-                                        } wise production graph
-                                    </div>
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
-                                        <select
-                                            value={donutOption || "days"}
-                                            className="report-download-otipn-select"
-                                            onChange={(e) =>
-                                                setDonutOption(e.target.value)
-                                            }
-                                        >
-                                            <option value="days">Days</option>
-                                            <option value="weeks">Weeks</option>
-                                            <option value="months">Months</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <DonutChart dataSet={
-                                    donutOption === "days" ? dataSet : donutOption === "weeks" ? weekDataSet : monthDataSet
-                                } option={donutOption} />
-                            </div> */}
-                        </div>
+                        </div> */}
                         <div className="production-overview-title">Defective (ng) overview</div>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            width: "100%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            width: "89%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "10px"
-                        }}>
-                        <div className="production-overview-content opt-overview-content" style={{
-                            gap: "20px"
-                        }}>
+                        <div className="production-overview-content" style={{gap: "20px"}}>
 
                             <div className="production-overview-tile  opt-tile">
                                 <div className="production-overview-tile-title"><img src={today} alt="" className="title-img" />Today's total defective</div>
@@ -316,49 +262,6 @@ export default function Dashboard() {
                                     3.9% From last year
                                 </div>
                             </div>
-                        </div>
-                        <div className="production-overview-content opt-overview-content" style={{
-                            width: "auto"
-                        }}>
-                            <div className="production-overview-tile donut-tile donut-opt-tile">
-                                <div className="production-overview-tile-title" style={{ marginBottom: "20px", justifyContent: "space-between" }}>
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        gap: "10px"
-                                    }}>
-                                        <DataSaverOffIcon />
-                                        {
-                                            donutOption === "days" ? "Day " : donutOption === "weeks" ? "Week " : "Month "
-                                        } wise production graph
-                                    </div>
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
-                                        <select
-                                            value={donutOption || "days"}
-                                            className="report-download-otipn-select"
-                                            onChange={(e) =>
-                                                setDonutOption(e.target.value)
-                                            }
-                                        >
-                                            <option value="days">Days</option>
-                                            <option value="weeks">Weeks</option>
-                                            <option value="months">Months</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <DonutChart dataSet={
-                                    donutOption === "days" ? dataSet : donutOption === "weeks" ? weekDataSet : monthDataSet
-                                } option={donutOption} />
-                            </div>
-                        </div>
-                        </div>
                         </div>
                     </div>
                 </div>
