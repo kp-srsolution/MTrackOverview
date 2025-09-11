@@ -96,6 +96,12 @@ export default function Dashboard() {
     }
 
     const navigate = useNavigate();
+    useEffect(() => {
+        const token = localStorage.getItem("firstname");
+        if(!token) {
+            navigate("/login");
+        }
+    }, []);
 
     if (loading) return <p>Loading dashboard...</p>;
 

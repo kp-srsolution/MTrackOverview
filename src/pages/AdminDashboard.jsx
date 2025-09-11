@@ -83,6 +83,15 @@ export default function Dashboard() {
     const [donutOption, setDonutOption] = useState("days");
     const [windowWidth, setWindowWidth] = useState(useWindowWidth());
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("firstname");
+        if(!token) {
+            navigate("/login");
+        }
+    }, []);
+
     function useWindowWidth() {
         const [width, setWidth] = useState(window.innerWidth);
 
@@ -94,8 +103,6 @@ export default function Dashboard() {
 
         return width;
     }
-
-    const navigate = useNavigate();
 
     if (loading) return <p>Loading dashboard...</p>;
 
@@ -267,25 +274,11 @@ export default function Dashboard() {
                             </div> */}
                         </div>
                         <div className="production-overview-title">Defective (ng) overview</div>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            width: "100%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            width: "89%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "10px"
-                        }}>
+                        <div  className="ng-overview-prime-class">
+                        <div className="ng-overview-sub-class">
                         <div className="production-overview-content opt-overview-content" style={{
                             gap: "20px"
                         }}>
-
                             <div className="production-overview-tile  opt-tile">
                                 <div className="production-overview-tile-title"><img src={today} alt="" className="title-img" />Today's total defective</div>
                                 <div className="production-overview-tile-value">97<div className="type">(Items)</div></div>

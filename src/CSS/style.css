@@ -974,6 +974,19 @@ input[button] {
   width: 600px;
 }
 
+.ng-overview-prime-class, .ng-overview-sub-class {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.ng-overview-sub-class {
+  width: 89%;
+  gap: 10px;
+}
+
 @media screen and (max-width: 1250px) {
   .greetings-container, .overview-container, .production-overview {
     width: 95%;
@@ -996,7 +1009,7 @@ input[button] {
     font-size: 19px;
   }
   .production-overview-tile {
-    min-width: 160px;
+    min-width: 200px;
   }
   .title-img {
     width: 15px;
@@ -1006,5 +1019,15 @@ input[button] {
     font-size: 10px;
     gap: 10px;
     color: green;
+}
+.register-form-box {
+  min-width: 90%;
+}
+.ng-overview-sub-class {
+  flex-direction: column;
+}
+.opt-overview-content {
+  width: 90%;
+  align-items: center;
 }
 }

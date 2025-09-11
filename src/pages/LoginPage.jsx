@@ -21,10 +21,14 @@ const LoginPage = () => {
 
   useEffect(
     () => {
-      const token = localStorage.getItem("token");
+      const type = localStorage.getItem("type");
 
-      if (token) {
-        navigate("/dashboard");
+      if (type == 1) {
+        navigate("/operator/dashboard");
+      } else if(type == 3) {
+        navigate("/supervisor/dashboard");
+      } else if(type == 4) {
+        navigate("/admin/dashboard");
       }
     }, []);
 
@@ -74,22 +78,9 @@ const LoginPage = () => {
     try {
       setLoading(true);
       console.log(userdata);
-      
-      // const result = await axios.post(
-      //   "http://localhost:5000/api/users/login",
-      //   {
-      //     email,
-      //     password,
-      //     type: role.toString(),
-      //   },
-      //   {
-      //     headers: { "Content-Type": "application/json" }
-      //   }
-      // );
-      // console.log(result.data.user);
 
       for (let i = 0; i < userdata.length; i++) {
-        if (userdata[i].email == email && userdata[i].password == password) {
+        if (userdata[i].email == email && userdata[i].password == password && userdata[i].type == role) {
           localStorage.setItem("firstname", userdata[i].firstname);
           localStorage.setItem("lastname", userdata[i].lastname);
           localStorage.setItem("email", userdata[i].email);
@@ -136,7 +127,7 @@ const LoginPage = () => {
           }}>
             Log into your account
             <b style={{ fontSize: "11px", fontWeight: "300", textAlign: "right" }}>
-              Don't you have any account? <Link to="/createaccount">Signup</Link> here.
+              Don't you have any account? <Link to="/login">Signup</Link> here.
             </b>
           </div>
           <div className="form-inputs-container">
@@ -158,8 +149,8 @@ const LoginPage = () => {
               )}
             </div>
             <div className="form-input-cont">
-              <label htmlFor="password">Create your password</label>
-              <input type="text" className="form-input" name="password" id="password" placeholder="Enter password" onChange={(e) => handlePasswordChange(e)} />
+              <label htmlFor="password">Enter your password</label>
+              <input type="password" className="form-input" name="password" id="password" placeholder="Enter password" onChange={(e) => handlePasswordChange(e)} />
               {!passwordValid && password.length > 0 && (
                 <b style={{ color: 'red', fontSize: "13px", fontWeight: "500" }}>
                   Password must be 8 or more characters with a mix of letters, numbers, and symbols.
@@ -167,9 +158,14 @@ const LoginPage = () => {
               )}
             </div>
             <div className="form-input-cont">
+            {loginError && (
+                <b style={{ color: 'red', fontSize: "16px", fontWeight: "500" }}>
+                  Email, Password or Role is not valid!
+                </b>
+              )}
               <input type="button" className="login-submit-button" style={!passwordValid || email === '' ? { backgroundColor: "grey", cursor: "default" } : { backgroundColor: "#264D78", cursor: "pointer", }} value={loading ? "" : "Login"} onClick={passwordValid && email !== '' ? () => handleSubmit() : undefined} />
               <b style={{ fontSize: "13px", fontWeight: "500", textAlign: "center" }}>
-                Don't you have any account? <Link to="/createaccount">Signup</Link> here.
+                Don't you have any account? <Link to="/login">Signup</Link> here.
               </b>
               {
                 loading ? <SpinLoader /> : <></>
