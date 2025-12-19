@@ -11,3 +11,88 @@ public async Task StartListeningAsync()
         _ = Task.Run(() => HandleClientAsync(client)); // ✅ run independently
     }
 }
+
+private async Task HandleClientAsync(TcpClient client)
+{
+    _lastClient = client;
+
+    using (client)
+    using (var stream = client.GetStream())
+    using (var reader = new StreamReader(stream, Encoding.UTF8))
+    using (var writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+    {
+        while (client.Connected && !_cts.Token.IsCancellationRequested)
+        {
+            string data = await reader.ReadLineAsync();
+
+            if (string.IsNullOrWhiteSpace(data))
+                continue;
+
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var list = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(data);
+                    var results = new List<(string Bin, string Voltage, string Status)>();
+                    var machineName = _machineName.Contains("Machine2") ? (short)2 : (short)1;
+                    var logTasks = new List<Task>();
+
+                    foreach (var kvp in list)
+                    {
+                        // Await the logging task to avoid CS4014
+                        logTasks.Add(Task.Run(() => LogToTxt(DateTime.Now,
+                            kvp.ContainsKey("BIN") ? kvp["BIN"] : "-",
+                            float.Parse(kvp.ContainsKey("VOLTAGE") ? kvp["VOLTAGE"] : "0"),
+                            machineName)));
+                    }
+
+                    // save log of received data
+                    LogToFile($"[{_machineName}] Received data: {data}");
+
+                    var filterService = new FilterService();
+                    // selected lot file path -> basedirectory of project / AppSettings / MachineName_Lot.txt
+                    string selectedLotFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings", $"selected_lot.txt");
+                    string fileName = File.Exists(selectedLotFile)
+                        ? File.ReadAllText(selectedLotFile).Trim()
+                        : "";
+
+                    foreach (var item in list)
+                    {
+                        string bin = item.ContainsKey("BIN") ? item["BIN"] : "-";
+                        string voltage = item.ContainsKey("VOLTAGE") ? item["VOLTAGE"] : "0";
+
+                        var result = filterService.SearchData(fileName, bin);
+                        float tfOcv4 = 0.0f;
+                        if (result.Rows.Count > 0)
+                            float.TryParse(result.Rows[0]["tf_Ocv4"].ToString(), out tfOcv4);
+
+                        StatusCheckingHelper checker = new StatusCheckingHelper();
+                        float currentOcv = float.Parse(voltage);
+                        string status = checker.CheckStatus(bin, currentOcv, tfOcv4, (short)(_machineName.Contains("Machine2") == true ? 2 : 1));
+                        //string status = isGood ? "OKAY" : "NG";
+
+                        results.Add((bin, voltage, status));
+                    }
+
+                    var statusesOnly = results.ConvertAll(r => r.Status);
+                    string cleanJson = JsonConvert.SerializeObject(statusesOnly, Formatting.None);
+
+                    lock (writer)
+                    {
+                        writer.WriteLine(cleanJson);
+                        writer.Flush();
+                    }
+
+                    OnStatusChecked?.Invoke(_machineName, results);
+                    LogToFile($"[{_machineName}] Sent response: {cleanJson}");
+                    await Task.WhenAll(logTasks);
+                }
+                catch (Exception ex)
+                {
+                    LogToFile($"[{_machineName}] Error: {ex.Message}");
+                }
+            });
+        }
+
+    }
+}
