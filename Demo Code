@@ -1,3 +1,17 @@
+public async void ConnectToKValueServer()
+{
+    try
+    {
+        kvClient = new KValueClient(msg => ShowMsg(msg));
+        await kvClient.ConnectAsync(ServerIP, ServerPort);
+        ShowMsg("Connected to K-Value server successfully");
+    }
+    catch (Exception ex)
+    {
+        ShowMsg("Failed to connect to K-Value server:" + ex.Message);
+    }
+}
+
 public async Task StartListeningAsync()
 {
     _cts = new CancellationTokenSource();
