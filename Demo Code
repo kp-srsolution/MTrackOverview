@@ -1,3 +1,23 @@
+public async Task<bool> ConnectAsync(string ip, int port)
+{
+    try
+    {
+        client = new TcpClient();
+        await client.ConnectAsync(ip, port);
+        stream = client.GetStream();
+        reader = new StreamReader(stream, Encoding.UTF8);
+        writer = new StreamWriter(stream, Encoding.UTF8);
+        writer.AutoFlush = true;
+        Log("Connected to server.");
+        return true;
+    }
+    catch (Exception ex)
+    {
+        Log("Connection failed: " + ex.Message);
+        return false;
+    }
+}
+
 public async void ConnectToKValueServer()
 {
     try
