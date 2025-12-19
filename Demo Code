@@ -1,0 +1,13 @@
+public async Task StartListeningAsync()
+{
+    _cts = new CancellationTokenSource();
+    _listener = new TcpListener(IPAddress.Any, _port);
+    _listener.Start();
+    Console.WriteLine($"{_machineName} listening on port {_port}");
+
+    while (!_cts.Token.IsCancellationRequested)
+    {
+        var client = await _listener.AcceptTcpClientAsync();
+        _ = Task.Run(() => HandleClientAsync(client)); // ✅ run independently
+    }
+}
