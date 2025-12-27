@@ -1,3 +1,212 @@
+ReactJs code
+import React, { useEffect, useState } from "react";
+import "../css/ApprovalTable.css";
+import axios from "axios";
+
+const pageSize = 5;
+
+const STATUS_MAP = {
+  All: null,
+  Pending: "Pending",
+  Approved: "Approved",
+  Rejected: "Rejected",
+};
+
+export const ApprovalTable = () => {
+  const [rows, setRows] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("All");
+
+  const [sortBy, setSortBy] = useState("Id");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [data, setData] = useState(null);
+  const [activeTab, setActiveTab] = useState("All");
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(Math.ceil(totalRecords / pageSize));
+  const [requestIdFilter, setRequestIdFilter] = useState("");
+  const [partIdFilter, setPartIdFilter] = useState("");
+  const [partNameFilter, setPartNameFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [resultFilter, setResultFilter] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const retriveData = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get("http://localhost:5000/api/Approval/requests/paged", {
+        params: {
+          page,
+          pageSize,
+          sortBy: sortBy || null ,
+          sortOrder: sortOrder || null,
+          requestIdFilter: requestIdFilter || null,
+          partIdFilter: partIdFilter || null,
+          partNameFilter: partNameFilter || null,
+          statusFilter: statusFilter || null,
+          resultFilter: resultFilter || null,
+          search: search || null
+        }
+      });
+      setRows(res.data.data);
+      setTotalRecords(res.data.totalRecords);
+      setTotalPages(Math.ceil(res.data.totalRecords / pageSize));
+      console.log(res.data);
+      
+    } catch(e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    retriveData();
+  }, [page, search, status, sortBy, sortOrder]);
+
+  // const fetchData = async () => {
+  //   const params = new URLSearchParams({
+  //     page,
+  //     pageSize: pageSize,
+  //     sortBy,
+  //     sortOrder,
+  //   });
+
+  //   // if (search) params.append("search", search);
+  //   // if (STATUS_MAP[status]) params.append("statusFilter", STATUS_MAP[status]);
+
+  //   const res = await fetch(
+  //     `http://localhost:5000/api/approval/requests/paged?${params.toString()}`
+  //   );
+  //   const json = await res.json();
+
+  //   setRows(json.data);
+  //   setTotalRecords(json.totalRecords);
+  // };
+
+  const handleSort = (column) => {
+    if (sortBy === column) {
+      setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(column);
+      setSortOrder("asc");
+    }
+  };
+
+  return (
+    <div className="table-wrapper">
+
+     
+      <div className="toolbar">
+        <div className="tabs">
+          {["All", "Pending", "Approved", "Rejected"].map((tab) => (
+            <button
+              key={tab}
+              className={`tab ${status === tab ? "active" : ""}`}
+              onClick={() => {
+                setStatus(tab);
+                setPage(1);
+              }}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <input
+          className="search"
+          placeholder="Search by Part Name or ID..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+        />
+      </div>
+    {!loading ?
+      <>
+      {/* Table */}
+      <table className="approval-table">
+        <thead>
+          <tr>
+            <th onClick={() => handleSort("Id")}>Request ID</th>
+            <th onClick={() => handleSort("PartName")}>Part Name</th>
+            <th onClick={() => handleSort("PartId")}>Part ID</th>
+            <th>Current Level</th>
+            <th onClick={() => handleSort("Status")}>Status</th>
+            <th onClick={() => handleSort("CreatedAt")}>Last Updated</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {rows.length === 0 && (
+            <tr>
+              <td colSpan="7" className="empty">
+                No records found
+              </td>
+            </tr>
+          )}
+
+          {rows.map((item) => (
+            <tr key={item.id}>
+              <td>{`REQ-${item.id.toString().padStart(4, "0")}`}</td>
+              <td className="bold">{item.partName}</td>
+              <td>{item.partId}</td>
+              <td>
+                {item.actionBySeniorManager
+                  ? "Completed"
+                  : item.actionByManager
+                  ? "Senior Manager"
+                  : item.actionBySuperVisor
+                  ? "Manager"
+                  : "Supervisor"}
+              </td>
+              <td>
+                <span className={`status ${item.status.toLowerCase()}`}>
+                  {item.status}
+                </span>
+              </td>
+              <td>{item.timeString}</td>
+              <td>
+                <button className="view-btn">👁</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Footer */}
+      <div className="footer">
+        <span>
+          Showing {(page - 1) * pageSize + 1} to{" "}
+          {Math.min(page * pageSize, totalRecords)} of {totalRecords} entries
+        </span>
+
+        <div className="pagination">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
+          >
+            Previous
+          </button>
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage((p) => p + 1)}
+          >
+            Next
+          </button>
+        </div>
+      </div></> : undefined }
+    </div>
+  );
+        }
+
+
+API end point code
+
 [HttpGet("requests/paged")]
         public IActionResult GetPagedApprovals(
             int page = 1,
@@ -156,6 +365,8 @@
 
         }
 
+
+Response Data:
 
 {
   "data": [
