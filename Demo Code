@@ -1,132 +1,95 @@
-public async Task<bool> ConnectAsync(string ip, int port)
 {
-    try
+  "data": [
     {
-        client = new TcpClient();
-        await client.ConnectAsync(ip, port);
-        stream = client.GetStream();
-        reader = new StreamReader(stream, Encoding.UTF8);
-        writer = new StreamWriter(stream, Encoding.UTF8);
-        writer.AutoFlush = true;
-        Log("Connected to server.");
-        return true;
-    }
-    catch (Exception ex)
+      "id": 1,
+      "partId": "p001",
+      "partName": "Part",
+      "status": "Approved",
+      "result": "GOOD",
+      "createdAt": "2025-12-25T12:24:16.49",
+      "actionBySuperVisor": false,
+      "actionByManager": false,
+      "actionBySeniorManager": false,
+      "supervisorActionComent": "",
+      "managerActionComent": "",
+      "seniorManagerActionComent": "",
+      "timeString": "25-12-2025 12:24:16"
+    },
     {
-        Log("Connection failed: " + ex.Message);
-        return false;
-    }
-}
-
-public async void ConnectToKValueServer()
-{
-    try
+      "id": 3,
+      "partId": "PART0002",
+      "partName": "Part 2",
+      "status": "Approved",
+      "result": "GOOD",
+      "createdAt": "2025-12-25T17:40:31.3133333",
+      "actionBySuperVisor": true,
+      "actionByManager": true,
+      "actionBySeniorManager": true,
+      "supervisorActionComent": "Here we go",
+      "managerActionComent": "Here we go",
+      "seniorManagerActionComent": "Here",
+      "timeString": "25-12-2025 17:40:31"
+    },
     {
-        kvClient = new KValueClient(msg => ShowMsg(msg));
-        await kvClient.ConnectAsync(ServerIP, ServerPort);
-        ShowMsg("Connected to K-Value server successfully");
-    }
-    catch (Exception ex)
+      "id": 4,
+      "partId": "Part0002",
+      "partName": "Part 5",
+      "status": "Rejected",
+      "result": "GOOD",
+      "createdAt": "2025-12-25T18:04:19.3533333",
+      "actionBySuperVisor": false,
+      "actionByManager": false,
+      "actionBySeniorManager": false,
+      "supervisorActionComent": "Demo Supervisor comment",
+      "managerActionComent": "",
+      "seniorManagerActionComent": "",
+      "timeString": "25-12-2025 18:04:19"
+    },
     {
-        ShowMsg("Failed to connect to K-Value server:" + ex.Message);
-    }
-}
-
-public async Task StartListeningAsync()
-{
-    _cts = new CancellationTokenSource();
-    _listener = new TcpListener(IPAddress.Any, _port);
-    _listener.Start();
-    Console.WriteLine($"{_machineName} listening on port {_port}");
-
-    while (!_cts.Token.IsCancellationRequested)
+      "id": 5,
+      "partId": "PART003",
+      "partName": "Part 5",
+      "status": "SupervisorApproved",
+      "result": "BAD",
+      "createdAt": "2025-12-25T18:06:17.3166667",
+      "actionBySuperVisor": true,
+      "actionByManager": false,
+      "actionBySeniorManager": false,
+      "supervisorActionComent": "GOOD",
+      "managerActionComent": "",
+      "seniorManagerActionComent": "",
+      "timeString": "25-12-2025 18:06:17"
+    },
     {
-        var client = await _listener.AcceptTcpClientAsync();
-        _ = Task.Run(() => HandleClientAsync(client)); // ✅ run independently
-    }
-}
-
-private async Task HandleClientAsync(TcpClient client)
-{
-    _lastClient = client;
-
-    using (client)
-    using (var stream = client.GetStream())
-    using (var reader = new StreamReader(stream, Encoding.UTF8))
-    using (var writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+      "id": 6,
+      "partId": "PART001",
+      "partName": "Demo Part",
+      "status": "Approved",
+      "result": "GOOD",
+      "createdAt": "2025-12-25T18:12:00.05",
+      "actionBySuperVisor": true,
+      "actionByManager": true,
+      "actionBySeniorManager": true,
+      "supervisorActionComent": "Demo comment from Supervisor",
+      "managerActionComent": "Demo Comment from Manager",
+      "seniorManagerActionComent": "Demo Comment from Senior Manager",
+      "timeString": "25-12-2025 18:12:00"
+    },
     {
-        while (client.Connected && !_cts.Token.IsCancellationRequested)
-        {
-            string data = await reader.ReadLineAsync();
-
-            if (string.IsNullOrWhiteSpace(data))
-                continue;
-
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    var list = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(data);
-                    var results = new List<(string Bin, string Voltage, string Status)>();
-                    var machineName = _machineName.Contains("Machine2") ? (short)2 : (short)1;
-                    var logTasks = new List<Task>();
-
-                    foreach (var kvp in list)
-                    {
-                        // Await the logging task to avoid CS4014
-                        logTasks.Add(Task.Run(() => LogToTxt(DateTime.Now,
-                            kvp.ContainsKey("BIN") ? kvp["BIN"] : "-",
-                            float.Parse(kvp.ContainsKey("VOLTAGE") ? kvp["VOLTAGE"] : "0"),
-                            machineName)));
-                    }
-
-                    // save log of received data
-                    LogToFile($"[{_machineName}] Received data: {data}");
-
-                    var filterService = new FilterService();
-                    // selected lot file path -> basedirectory of project / AppSettings / MachineName_Lot.txt
-                    string selectedLotFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings", $"selected_lot.txt");
-                    string fileName = File.Exists(selectedLotFile)
-                        ? File.ReadAllText(selectedLotFile).Trim()
-                        : "";
-
-                    foreach (var item in list)
-                    {
-                        string bin = item.ContainsKey("BIN") ? item["BIN"] : "-";
-                        string voltage = item.ContainsKey("VOLTAGE") ? item["VOLTAGE"] : "0";
-
-                        var result = filterService.SearchData(fileName, bin);
-                        float tfOcv4 = 0.0f;
-                        if (result.Rows.Count > 0)
-                            float.TryParse(result.Rows[0]["tf_Ocv4"].ToString(), out tfOcv4);
-
-                        StatusCheckingHelper checker = new StatusCheckingHelper();
-                        float currentOcv = float.Parse(voltage);
-                        string status = checker.CheckStatus(bin, currentOcv, tfOcv4, (short)(_machineName.Contains("Machine2") == true ? 2 : 1));
-                        //string status = isGood ? "OKAY" : "NG";
-
-                        results.Add((bin, voltage, status));
-                    }
-
-                    var statusesOnly = results.ConvertAll(r => r.Status);
-                    string cleanJson = JsonConvert.SerializeObject(statusesOnly, Formatting.None);
-
-                    lock (writer)
-                    {
-                        writer.WriteLine(cleanJson);
-                        writer.Flush();
-                    }
-
-                    OnStatusChecked?.Invoke(_machineName, results);
-                    LogToFile($"[{_machineName}] Sent response: {cleanJson}");
-                    await Task.WhenAll(logTasks);
-                }
-                catch (Exception ex)
-                {
-                    LogToFile($"[{_machineName}] Error: {ex.Message}");
-                }
-            });
-        }
-
+      "id": 7,
+      "partId": "PART0007",
+      "partName": "Demo Part 2",
+      "status": "Rejected",
+      "result": "BAD",
+      "createdAt": "2025-12-25T18:14:23.73",
+      "actionBySuperVisor": false,
+      "actionByManager": false,
+      "actionBySeniorManager": false,
+      "supervisorActionComent": "Demo rejection comment",
+      "managerActionComent": "",
+      "seniorManagerActionComent": "",
+      "timeString": "25-12-2025 18:14:23"
     }
+  ],
+  "totalRecords": 6
 }
