@@ -1,3 +1,162 @@
+[HttpGet("requests/paged")]
+        public IActionResult GetPagedApprovals(
+            int page = 1,
+            int pageSize = 10,
+            string? sortBy = null,
+            string? sortOrder = "asc",
+            string? search = null,
+            int? requestIdFilter = null,
+            string? partIdFilter = null,
+            string? partNameFilter = null,
+            string? resultFilter = null,
+            string? statusFilter = null
+        )
+        {
+            var result = new List<FinalApproval>();
+            int totalRecords = 0;
+
+            using (var conn = _database.GetConnection())
+            {
+                conn.Open();
+
+                // ✅ WHERE conditions
+                var whereClauses = new List<string>();
+
+                if (!string.IsNullOrEmpty(search))
+                    whereClauses.Add("(PartName LIKE @Search OR PartId LIKE @Search)");
+
+                if (requestIdFilter.HasValue)
+                    whereClauses.Add("Id LIKE @RequestIdFilter");
+
+                if (!string.IsNullOrEmpty(partIdFilter))
+                    whereClauses.Add("PartId LIKE @PartIdFilter");
+
+                if (!string.IsNullOrEmpty(partNameFilter))
+                    whereClauses.Add("PartName LIKE @PartNameFilter");
+
+                if (!string.IsNullOrEmpty(resultFilter))
+                    whereClauses.Add("Result LIKE @ResultFilter");
+
+                if (!string.IsNullOrEmpty(statusFilter))
+                    whereClauses.Add("Status LIKE @StatusFilter");
+
+                string whereClause = whereClauses.Count > 0
+                    ? "WHERE " + string.Join(" AND ", whereClauses)
+                    : "";
+
+                // ✅ Sorting with whitelisting
+                var allowedSortColumns = new HashSet<string>
+                {
+                    "Id", "PartId", "partName", "result", "status", "CreatedAt"
+                };
+                string orderBy = allowedSortColumns.Contains(sortBy ?? "")
+                    ? sortBy!
+                    : "Id";
+
+                string orderDirection = sortOrder?.ToLower() == "desc" ? "DESC" : "ASC";
+
+                // ✅ Count query
+                using (var countCmd = new SqlCommand($"SELECT COUNT(*) FROM ApprovalRequests {whereClause}", conn))
+                {
+                    if (!string.IsNullOrEmpty(search))
+                        countCmd.Parameters.AddWithValue("@Search", $"%{search}%");
+                    if (requestIdFilter.HasValue)
+                        countCmd.Parameters.AddWithValue("@RequestIdFilter", $"%{requestIdFilter}%");
+                    if (!string.IsNullOrEmpty(partNameFilter))
+                        countCmd.Parameters.AddWithValue("@PartNameFilter", $"%{partNameFilter}%");
+                    if (!string.IsNullOrEmpty(resultFilter))
+                        countCmd.Parameters.AddWithValue("@ResultFilter", $"%{resultFilter}%");
+                    if (!string.IsNullOrEmpty(partIdFilter))
+                        countCmd.Parameters.AddWithValue("@PartIdFilter", $"%{partIdFilter}%");
+                    if (!string.IsNullOrEmpty(statusFilter))
+                        countCmd.Parameters.AddWithValue("@StatusFilter", $"%{statusFilter}%");
+
+                    totalRecords = Convert.ToInt32(countCmd.ExecuteScalar());
+                }
+
+                int offset = (page - 1) * pageSize;
+
+                using (var cmd = new SqlCommand($@"
+    SELECT *
+    FROM ApprovalRequests
+    {whereClause}
+    ORDER BY {orderBy} {orderDirection}
+    OFFSET @Offset ROWS
+    FETCH NEXT @PageSize ROWS ONLY", conn))
+                {
+                    cmd.Parameters.AddWithValue("@Offset", offset);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                    if (!string.IsNullOrEmpty(search))
+                        cmd.Parameters.AddWithValue("@Search", $"%{search}%");
+
+                    if (requestIdFilter.HasValue)
+                        cmd.Parameters.AddWithValue("@RequestIdFilter", $"%{requestIdFilter}%");
+
+                    if (!string.IsNullOrEmpty(partNameFilter))
+                        cmd.Parameters.AddWithValue("@PartNameFilter", $"%{partNameFilter}%");
+
+                    if (!string.IsNullOrEmpty(resultFilter))
+                        cmd.Parameters.AddWithValue("@ResultFilter", $"%{resultFilter}%");
+
+                    if (!string.IsNullOrEmpty(partIdFilter))
+                        cmd.Parameters.AddWithValue("@PartIdFilter", $"%{partIdFilter}%");
+
+                    if (!string.IsNullOrEmpty(statusFilter))
+                        cmd.Parameters.AddWithValue("@StatusFilter", $"%{statusFilter}%");
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(new FinalApproval
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                PartName = reader["PartName"].ToString(),
+                                PartId = reader["PartId"].ToString(),
+                                Status = reader["Status"].ToString(),
+                                Result = reader["Result"].ToString(),
+                                CreatedAt = (DateTime)reader["CreatedAt"],
+                                ActionBySuperVisor = (bool)reader["ActionBySuperVisor"],
+                                ActionByManager = (bool)reader["ActionByManager"],
+                                ActionBySeniorManager = (bool)reader["ActionBySeniorManager"],
+                                SupervisorActionComent = reader["SupervisorActionComent"]?.ToString(),
+                                ManagerActionComent = reader["ManagerActionComent"]?.ToString(),
+                                SeniorManagerActionComent = reader["SeniorManagerActionComent"]?.ToString()
+                            });
+                        }
+                    }
+                }
+
+
+            }
+
+            var response = new
+            {
+                data = result.Select(r => new
+                {
+                    r.Id,
+                    r.PartId,
+                    r.PartName,
+                    r.Status,
+                    r.Result,
+                    r.CreatedAt,
+                    r.ActionBySuperVisor,
+                    r.ActionByManager,
+                    r.ActionBySeniorManager,
+                    r.SupervisorActionComent,
+                    r.ManagerActionComent,
+                    r.SeniorManagerActionComent,
+                    TimeString = r.CreatedAt.ToString("dd-MM-yyyy HH:mm:ss")
+                }),
+                totalRecords
+            };
+
+            return Ok(response);
+
+        }
+
+
 {
   "data": [
     {
