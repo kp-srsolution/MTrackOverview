@@ -1,3 +1,26 @@
+private void display_Result(DX_Info dxx)
+        {
+            mainForm.Invoke(new MethodInvoker(delegate
+            {
+                
+                int rowIndex = this.productTable.SeachRowIdByFirstRowValue(dxx.DianXinCode);
+
+                if (rowIndex < 0)
+                {
+                
+                    rowIndex = this.productTable.AddRow(dxx.DianXinCode);
+                }
+
+                
+                this.productTable.UpdateRowByIndex(rowIndex, "Cell Code", dxx.DianXinCode);
+                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Voltage(V)", dxx.volt);
+                this.productTable.UpdateRowByIndex(rowIndex, "IR(mΩ)", dxx.ir);
+                
+                int result = Compare(dxx);
+                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Result", (result == 6) ? "NG" : "OK");
+                this.productTable.UpdateRowByIndex(rowIndex, "Sorting_Slots", result);
+                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Test_Finish_Time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
 ReactJs code
 import React, { useEffect, useState } from "react";
 import "../css/ApprovalTable.css";
