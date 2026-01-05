@@ -1,3 +1,145 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CustomMsgBoxTesting.cs
+{
+    public partial class CustomMessageBox : Form
+    {
+        public CustomMessageBox(
+           string title,
+           string message,
+           Color backgroundColor,
+           Color titleColor)
+        {
+            InitializeComponent();
+
+            this.Text = title;
+            lblTitle.Text = title;
+            lblMessage.Text = message;
+
+            pnlHeader.BackColor = backgroundColor;
+            lblTitle.ForeColor = titleColor;
+
+            // Form styling
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
+            // ---------- FORM ----------
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.ShowInTaskbar = false;
+            this.TopMost = true;
+
+            // Standard operator-friendly size
+            this.Width = 520;
+            this.Height = 300;
+            this.MinimumSize = new Size(420, 220);
+
+            // ---------- HEADER PANEL ----------
+            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.Height = 50;
+
+            // ---------- TITLE ----------
+            lblTitle.Dock = DockStyle.Fill;
+            lblTitle.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+
+            // ---------- MESSAGE ----------
+            lblMessage.Dock = DockStyle.Fill;
+            lblMessage.Font = new Font("Segoe UI", 10.5F);
+            lblMessage.TextAlign = ContentAlignment.TopLeft;
+            lblMessage.Padding = new Padding(20, 15, 20, 15);
+            lblMessage.AutoSize = false;
+
+            // ---------- OK BUTTON ----------
+            btnOK.Text = "OK";
+            btnOK.Dock = DockStyle.Bottom;
+            btnOK.Height = 45;
+            btnOK.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+
+            btnOK.FlatStyle = FlatStyle.Flat;
+            btnOK.FlatAppearance.BorderSize = 0;
+
+            // Keyboard behavior (important for operators)
+            this.AcceptButton = btnOK;
+            this.CancelButton = btnOK;
+
+            int textHeight = TextRenderer.MeasureText(
+            lblMessage.Text,
+            lblMessage.Font,
+            new Size(this.Width - 40, int.MaxValue),
+            TextFormatFlags.WordBreak).Height;
+
+            lblMessage.Height = textHeight + 50;
+            this.Height = pnlHeader.Height + lblMessage.Height + btnOK.Height + 150;
+
+            btnOK.BackColor = pnlHeader.BackColor;
+            btnOK.ForeColor = Color.White;
+        }
+
+        private void CustomMessageBox_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        // ---------- STATIC HELPERS ----------
+        public static void ShowSuccess(string message)
+        {
+            Show(
+                "SUCCESS",
+                message,
+                Color.FromArgb(46, 204, 113),   // Green
+                Color.White);
+        }
+
+        public static void ShowWarning(string message)
+        {
+            Show(
+                "WARNING",
+                message,
+                Color.FromArgb(231, 76, 60),    // Red
+                Color.White);
+        }
+        public static void ShowInfo(string message)
+        {
+            Show(
+                "INFO",
+                message,
+                Color.FromArgb(52, 152, 219),   // Blue
+                Color.White);
+        }
+
+        private static void Show(
+            string title,
+            string message,
+            Color bgColor,
+            Color titleColor)
+        {
+            using (var box = new CustomMessageBox(title, message, bgColor, titleColor))
+            {
+                box.ShowDialog();
+            }
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
+
+
 private void display_Result_With_KValue(DX_Info dxx, String Status)
         {
             mainForm.Invoke(new MethodInvoker(delegate
