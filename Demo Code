@@ -1,717 +1,910 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+import React from "react";
+import "../css/InspectionStyle.css";
 
-namespace CustomMsgBoxTesting.cs
-{
-    public partial class CustomMessageBox : Form
-    {
-        public CustomMessageBox(
-           string title,
-           string message,
-           Color backgroundColor,
-           Color titleColor)
-        {
-            InitializeComponent();
+export const InspectionTable = () => {
+    return (
+        <div className="table-wrapper">
+            <table className="inspection-table">
+                <thead>
+                    <tr>
+                        <th rowSpan="2" className="srno-col">No</th>
+                        <th rowSpan="2">Measuring items</th>
+                        <th rowSpan="2" className="standard-col">Standard</th>
+                        <th colSpan="6">Measuring value</th>
+                        {/* <th rowSpan="2">Freq</th>
+            <th rowSpan="2">Unit</th> */}
+                    </tr>
+                </thead>
 
-            this.Text = title;
-            lblTitle.Text = title;
-            lblMessage.Text = message;
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Inspection Jig, gauge,<br />Measuring instrument</td>
+                        <td>No scratches, dent</td>
+                        <td colSpan="6" className="center">
+                            <span style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}>
+                                <input type="radio" name="result" id="ok" value={"OK"} />
+                                <label htmlFor="ok">OK</label> &nbsp;{"/"}
+                                <input type="radio" name="result" id="ng" value={"NG"} />
+                                <label htmlFor="ng">NG</label>
+                            </span>
+                        </td>
+                        {/* <td>–</td>
+            <td>–</td> */}
+                    </tr>
 
-            pnlHeader.BackColor = backgroundColor;
-            lblTitle.ForeColor = titleColor;
+                    <tr>
+                        <td>2</td>
+                        <td className="two-cells-td"><div className="two-cells">
+                            <span>Camshaft Half diameter</span>
+                            <span>IN / EX</span>
+                        </div></td>
+                        <td>14.2(#1), 11.2(#4) (control value ±0.1) (COV face standard)</td>
+                        <td colSpan={6}>
+                            <div className="four-cells">
+                                <span>
+                                    <div className="hash-label">IN#1</div>
+                                    <input type="text" className="row-inputs row-2-inputs" />
+                                </span>
+                                <span>
+                                    <div className="hash-label">IN#4</div>
+                                    <input type="text" className="row-inputs row-2-inputs" />
+                                </span>
+                                <span>
+                                    <div className="hash-label">IN#1</div>
+                                    <input type="text" className="row-inputs row-2-inputs" />
+                                </span>
+                                <span>
+                                    <div className="hash-label">IN#4</div>
+                                    <input type="text" className="row-inputs row-2-inputs" />
+                                </span>
+                            </div>
+                        </td>
+                        {/* <td>1/shift</td>
+            <td>mm</td> */}
+                    </tr>
 
-            // Form styling
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+                    <tr>
+                        <td>3</td>
+                        <td><div className="two-cells">
+                            <span>Valve guide hole dia.</span>
+                            <span>IN</span>
+                        </div></td>
+                        <td >
+                            <span className="standard-col-sp">
+                                <span>Ø 10.5</span>
+                                <span>
+                                    <span>+0.018<span />
+                                    </span>
+                                    <span>0<span />
+                                    </span>
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            // ---------- FORM ----------
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.ShowInTaskbar = false;
-            this.TopMost = true;
+                    <tr>
+                        <td>4</td>
+                        <td> <div className="two-cells">
+                            <span className="arrows-cells">↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ↑</span>
+                            <span>EX</span>
+                        </div></td>
+                        <td>
+                            <span className="standard-col-sp">
+                                <span className="arrows-cells">↑</span>
+                                <span>
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            // Standard operator-friendly size
-            this.Width = 520;
-            this.Height = 300;
-            this.MinimumSize = new Size(420, 220);
+                    <tr>
+                        <td>5</td>
+                        <td><div className="two-cells">
+                            <span>Valve seat hole dia.</span>
+                            <span>IN</span>
+                        </div></td>
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>Ø 31.1</span>
+                                <span>
+                                    <span>+0.025
+                                    </span>
+                                    <span>0
+                                    </span>
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            // ---------- HEADER PANEL ----------
-            pnlHeader.Dock = DockStyle.Top;
-            pnlHeader.Height = 50;
+                    <tr>
+                        <td>6</td>
+                        <td><div className="two-cells">
+                            <span className="arrows-cells">↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ↑</span>
+                            <span>EX</span>
+                        </div></td>
+                        {/* <td>EX</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>Ø 26.7</span>
+                                <span>
+                                    <span>+0.021
+                                    </span>
+                                    <span>0
+                                    </span>
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            // ---------- TITLE ----------
-            lblTitle.Dock = DockStyle.Fill;
-            lblTitle.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+                    <tr>
+                        <td>7</td>
+                        <td><div className="two-cells">
+                            <span className="arrows-cells">↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ↑<div> &nbsp;height</div></span>
+                            <span>IN</span>
+                        </div></td>
+                        {/* <td>IN</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>56.0 ±0.1</span>
+                                <span>
+                                    <div className="standard-desc">(jig standard)</div>
+                                    {/* <span>+0.018<span/>
+                                    </span>
+                                    <span>0<span/>
+                                    </span> */}
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            // ---------- MESSAGE ----------
-            lblMessage.Dock = DockStyle.Fill;
-            lblMessage.Font = new Font("Segoe UI", 10.5F);
-            lblMessage.TextAlign = ContentAlignment.TopLeft;
-            lblMessage.Padding = new Padding(20, 15, 20, 15);
-            lblMessage.AutoSize = false;
+                    <tr>
+                        <td>8</td>
+                        <td><div className="two-cells">
+                            <span className="arrows-cells">↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ↑</span>
+                            <span>EX</span>
+                        </div></td>
+                        {/* <td>EX</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>58.24 ±0.1</span>
+                                <span>
+                                    <div className="standard-desc">(jig standard)</div>
+                                    {/* <span>+0.018<span/>
+                                    </span>
+                                    <span>0<span/>
+                                    </span> */}
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            // ---------- OK BUTTON ----------
-            btnOK.Text = "OK";
-            btnOK.Dock = DockStyle.Bottom;
-            btnOK.Height = 45;
-            btnOK.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+                    <tr>
+                        <td>9</td>
+                        <td><div className="two-cells">
+                            <span className="arrows-cells">↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ↑ <div>&nbsp;squareness</div></span>
+                            <span>IN</span>
+                        </div></td>
+                        {/* <td>IN</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>0.03 or less</span>
+                                <span>
+                                    <div className="standard-desc">(inner covex is not possible)</div>
+                                    {/* <span>+0.018<span/>
+                                    </span>
+                                    <span>0<span/>
+                                    </span> */}
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            btnOK.FlatStyle = FlatStyle.Flat;
-            btnOK.FlatAppearance.BorderSize = 0;
+                    <tr>
+                        <td>10</td>
+                        <td><div className="two-cells">
+                            <span className="arrows-cells">↑ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ↑</span>
+                            <span>EX</span>
+                        </div></td>
+                        {/* <td>EX</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span className="arrows-cells">↑</span>
+                                <span>
+                                    <div className="standard-desc">(inner covex is not possible)</div>
+                                    {/* <span>+0.018<span/>
+                                    </span>
+                                    <span>0<span/>
+                                    </span> */}
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
 
-            // Keyboard behavior (important for operators)
-            this.AcceptButton = btnOK;
-            this.CancelButton = btnOK;
+                    <tr>
+                        <td>11</td>
+                        <td><div className="two-cells">
+                            <span>Port inner dia.</span>
+                            <span>IN</span>
+                        </div></td>
+                        {/* <td>IN</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>Ø 25.07</span>
+                                <span>
+                                    <span>0
+                                    </span>
+                                    <span>-0.2<span />
+                                    </span>
+                                    <div className="standard-desc">(Through / dose)</div>
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>–</td> */}
+                    </tr>
 
-            int textHeight = TextRenderer.MeasureText(
-            lblMessage.Text,
-            lblMessage.Font,
-            new Size(this.Width - 40, int.MaxValue),
-            TextFormatFlags.WordBreak).Height;
+                    <tr>
+                        <td>12</td>
+                        <td><div className="two-cells">
+                            <span className="arrows-cells">↑</span>
+                            <span>EX</span>
+                        </div></td>
+                        {/* <td>EX</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>Ø 21.68</span>
+                                <span>
+                                    <span>+0.2 <span />
+                                    </span>
+                                    <span>0
+                                    </span>
+                                    <div className="standard-desc">(Through / dose)</div>
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>–</td> */}
+                    </tr>
 
-            lblMessage.Height = textHeight + 50;
-            this.Height = pnlHeader.Height + lblMessage.Height + btnOK.Height + 150;
-
-            btnOK.BackColor = pnlHeader.BackColor;
-            btnOK.ForeColor = Color.White;
-        }
-
-        private void CustomMessageBox_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-        // ---------- STATIC HELPERS ----------
-        public static void ShowSuccess(string message)
-        {
-            Show(
-                "SUCCESS",
-                message,
-                Color.FromArgb(46, 204, 113),   // Green
-                Color.White);
-        }
-
-        public static void ShowWarning(string message)
-        {
-            Show(
-                "WARNING",
-                message,
-                Color.FromArgb(231, 76, 60),    // Red
-                Color.White);
-        }
-        public static void ShowInfo(string message)
-        {
-            Show(
-                "INFO",
-                message,
-                Color.FromArgb(52, 152, 219),   // Blue
-                Color.White);
-        }
-
-        private static void Show(
-            string title,
-            string message,
-            Color bgColor,
-            Color titleColor)
-        {
-            using (var box = new CustomMessageBox(title, message, bgColor, titleColor))
-            {
-                box.ShowDialog();
-            }
-        }
-
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-    }
+                    <tr>
+                        <td>13</td>
+                        <td><div className="two-cells">
+                            <span>Spring seat spot face height</span>
+                            <span>IN</span>
+                        </div></td>
+                        {/* <td>IN</td> */}
+                        <td>
+                            <span className="standard-col-sp">
+                                <span>56.0 ±0.1</span>
+                                <span>
+                                    <div className="standard-desc">(jig standard)</div>
+                                </span>
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#1</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#2</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#3</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#4</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#5</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        <td className="rows-hash-cells">
+                            <span>
+                                <div className="hash-label">#6</div>
+                                <input type="text" className="row-inputs" />
+                            </span>
+                        </td>
+                        {/* <td>↑</td>
+            <td>↑</td> */}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
-
-private void display_Result_With_KValue(DX_Info dxx, String Status)
-        {
-            mainForm.Invoke(new MethodInvoker(delegate
-            {
-
-                int rowIndex = this.productTable.SeachRowIdByFirstRowValue(dxx.DianXinCode);
-
-                if (rowIndex < 0)
-                {
-
-                    rowIndex = this.productTable.AddRow(dxx.DianXinCode);
-                }
-
-
-                this.productTable.UpdateRowByIndex(rowIndex, "Cell Code", dxx.DianXinCode);
-                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Voltage(V)", dxx.volt);
-                this.productTable.UpdateRowByIndex(rowIndex, "IR(mΩ)", dxx.ir);
-                if (Status == "NG_K")
-                {
-                    // int result = Compare(dxx);
-                    this.productTable.UpdateRowByIndex(rowIndex, "OCV_Result", "NG_K");
-                    this.productTable.UpdateRowByIndex(rowIndex, "Sorting_Slots", 6);
-
-                }
-                else
-                {
-                    int result = Compare(dxx);
-                    this.productTable.UpdateRowByIndex(rowIndex, "OCV_Result", (result == 6) ? "NG" : "OK");
-                    this.productTable.UpdateRowByIndex(rowIndex, "Sorting_Slots", result);
-
-                }
-                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Test_Finish_Time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
-
-                try
-                {
-
-                    object[] content = this.productTable.SelectDataRow(rowIndex);
-                    string columnName = this.productTable.GetColumnName();
-
-                    SaveCsv csv = new SaveCsv();
-                    csv.Save("OCV", content, columnName);
-                }
-                catch (Exception ex)
-                {
-                    this.ShowMsg("CSV anomaly: " + ex.Message);
-                }
-
-            }));
-        }
-Status20 = response[0];
-                                Status19 = response[1];
-                                Status18 = response[2];
-                                Status17 = response[3];
-                                Status16 = response[4];
-                                Status15 = response[5];
-                                Status14 = response[6];
-                                Status13 = response[7];
-                                Status12 = response[8];
-                                Status11 = response[9];
-
-                                display_Result_With_KValue(mDX20, Status20);
-                                display_Result_With_KValue(mDX19, Status19);
-                                display_Result_With_KValue(mDX18, Status18);
-                                display_Result_With_KValue(mDX17, Status17);
-                                display_Result_With_KValue(mDX16, Status16);
-                                display_Result_With_KValue(mDX15, Status15);
-                                display_Result_With_KValue(mDX14, Status14);
-                                display_Result_With_KValue(mDX13, Status13);
-                                display_Result_With_KValue(mDX12, Status12);
-                                display_Result_With_KValue(mDX11, Status11);
-
-if (mPare.KValueLive == false)
-                            {
-                                display_Result(mDX11);
-                                display_Result(mDX12);
-                                display_Result(mDX13);
-                                display_Result(mDX14);
-                                display_Result(mDX15);
-                                display_Result(mDX16);
-                                display_Result(mDX17);
-                                display_Result(mDX18);
-                                display_Result(mDX19);
-                                display_Result(mDX20);
-                            }
-
-
-private void display_Result(DX_Info dxx)
-        {
-            mainForm.Invoke(new MethodInvoker(delegate
-            {
-                
-                int rowIndex = this.productTable.SeachRowIdByFirstRowValue(dxx.DianXinCode);
-
-                if (rowIndex < 0)
-                {
-                
-                    rowIndex = this.productTable.AddRow(dxx.DianXinCode);
-                }
-
-                
-                this.productTable.UpdateRowByIndex(rowIndex, "Cell Code", dxx.DianXinCode);
-                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Voltage(V)", dxx.volt);
-                this.productTable.UpdateRowByIndex(rowIndex, "IR(mΩ)", dxx.ir);
-                
-                int result = Compare(dxx);
-                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Result", (result == 6) ? "NG" : "OK");
-                this.productTable.UpdateRowByIndex(rowIndex, "Sorting_Slots", result);
-                this.productTable.UpdateRowByIndex(rowIndex, "OCV_Test_Finish_Time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
-ReactJs code
-import React, { useEffect, useState } from "react";
-import "../css/ApprovalTable.css";
-import axios from "axios";
-
-const pageSize = 5;
-
-const STATUS_MAP = {
-  All: null,
-  Pending: "Pending",
-  Approved: "Approved",
-  Rejected: "Rejected",
-};
-
-export const ApprovalTable = () => {
-  const [rows, setRows] = useState([]);
-  const [totalRecords, setTotalRecords] = useState(0);
-
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("All");
-
-  const [sortBy, setSortBy] = useState("Id");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [data, setData] = useState(null);
-  const [activeTab, setActiveTab] = useState("All");
-  const [pageSize, setPageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(Math.ceil(totalRecords / pageSize));
-  const [requestIdFilter, setRequestIdFilter] = useState("");
-  const [partIdFilter, setPartIdFilter] = useState("");
-  const [partNameFilter, setPartNameFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [resultFilter, setResultFilter] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  const retriveData = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/Approval/requests/paged", {
-        params: {
-          page,
-          pageSize,
-          sortBy: sortBy || null ,
-          sortOrder: sortOrder || null,
-          requestIdFilter: requestIdFilter || null,
-          partIdFilter: partIdFilter || null,
-          partNameFilter: partNameFilter || null,
-          statusFilter: statusFilter || null,
-          resultFilter: resultFilter || null,
-          search: search || null
-        }
-      });
-      setRows(res.data.data);
-      setTotalRecords(res.data.totalRecords);
-      setTotalPages(Math.ceil(res.data.totalRecords / pageSize));
-      console.log(res.data);
-      
-    } catch(e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    retriveData();
-  }, [page, search, status, sortBy, sortOrder]);
-
-  // const fetchData = async () => {
-  //   const params = new URLSearchParams({
-  //     page,
-  //     pageSize: pageSize,
-  //     sortBy,
-  //     sortOrder,
-  //   });
-
-  //   // if (search) params.append("search", search);
-  //   // if (STATUS_MAP[status]) params.append("statusFilter", STATUS_MAP[status]);
-
-  //   const res = await fetch(
-  //     `http://localhost:5000/api/approval/requests/paged?${params.toString()}`
-  //   );
-  //   const json = await res.json();
-
-  //   setRows(json.data);
-  //   setTotalRecords(json.totalRecords);
-  // };
-
-  const handleSort = (column) => {
-    if (sortBy === column) {
-      setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-    } else {
-      setSortBy(column);
-      setSortOrder("asc");
-    }
-  };
-
-  return (
-    <div className="table-wrapper">
-
-     
-      <div className="toolbar">
-        <div className="tabs">
-          {["All", "Pending", "Approved", "Rejected"].map((tab) => (
-            <button
-              key={tab}
-              className={`tab ${status === tab ? "active" : ""}`}
-              onClick={() => {
-                setStatus(tab);
-                setPage(1);
-              }}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
-        <input
-          className="search"
-          placeholder="Search by Part Name or ID..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
-        />
-      </div>
-    {!loading ?
-      <>
-      {/* Table */}
-      <table className="approval-table">
-        <thead>
-          <tr>
-            <th onClick={() => handleSort("Id")}>Request ID</th>
-            <th onClick={() => handleSort("PartName")}>Part Name</th>
-            <th onClick={() => handleSort("PartId")}>Part ID</th>
-            <th>Current Level</th>
-            <th onClick={() => handleSort("Status")}>Status</th>
-            <th onClick={() => handleSort("CreatedAt")}>Last Updated</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {rows.length === 0 && (
-            <tr>
-              <td colSpan="7" className="empty">
-                No records found
-              </td>
-            </tr>
-          )}
-
-          {rows.map((item) => (
-            <tr key={item.id}>
-              <td>{`REQ-${item.id.toString().padStart(4, "0")}`}</td>
-              <td className="bold">{item.partName}</td>
-              <td>{item.partId}</td>
-              <td>
-                {item.actionBySeniorManager
-                  ? "Completed"
-                  : item.actionByManager
-                  ? "Senior Manager"
-                  : item.actionBySuperVisor
-                  ? "Manager"
-                  : "Supervisor"}
-              </td>
-              <td>
-                <span className={`status ${item.status.toLowerCase()}`}>
-                  {item.status}
-                </span>
-              </td>
-              <td>{item.timeString}</td>
-              <td>
-                <button className="view-btn">👁</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Footer */}
-      <div className="footer">
-        <span>
-          Showing {(page - 1) * pageSize + 1} to{" "}
-          {Math.min(page * pageSize, totalRecords)} of {totalRecords} entries
-        </span>
-
-        <div className="pagination">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
-            Previous
-          </button>
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((p) => p + 1)}
-          >
-            Next
-          </button>
-        </div>
-      </div></> : undefined }
-    </div>
-  );
-        }
-
-
-API end point code
-
-[HttpGet("requests/paged")]
-        public IActionResult GetPagedApprovals(
-            int page = 1,
-            int pageSize = 10,
-            string? sortBy = null,
-            string? sortOrder = "asc",
-            string? search = null,
-            int? requestIdFilter = null,
-            string? partIdFilter = null,
-            string? partNameFilter = null,
-            string? resultFilter = null,
-            string? statusFilter = null
-        )
-        {
-            var result = new List<FinalApproval>();
-            int totalRecords = 0;
-
-            using (var conn = _database.GetConnection())
-            {
-                conn.Open();
-
-                // ✅ WHERE conditions
-                var whereClauses = new List<string>();
-
-                if (!string.IsNullOrEmpty(search))
-                    whereClauses.Add("(PartName LIKE @Search OR PartId LIKE @Search)");
-
-                if (requestIdFilter.HasValue)
-                    whereClauses.Add("Id LIKE @RequestIdFilter");
-
-                if (!string.IsNullOrEmpty(partIdFilter))
-                    whereClauses.Add("PartId LIKE @PartIdFilter");
-
-                if (!string.IsNullOrEmpty(partNameFilter))
-                    whereClauses.Add("PartName LIKE @PartNameFilter");
-
-                if (!string.IsNullOrEmpty(resultFilter))
-                    whereClauses.Add("Result LIKE @ResultFilter");
-
-                if (!string.IsNullOrEmpty(statusFilter))
-                    whereClauses.Add("Status LIKE @StatusFilter");
-
-                string whereClause = whereClauses.Count > 0
-                    ? "WHERE " + string.Join(" AND ", whereClauses)
-                    : "";
-
-                // ✅ Sorting with whitelisting
-                var allowedSortColumns = new HashSet<string>
-                {
-                    "Id", "PartId", "partName", "result", "status", "CreatedAt"
-                };
-                string orderBy = allowedSortColumns.Contains(sortBy ?? "")
-                    ? sortBy!
-                    : "Id";
-
-                string orderDirection = sortOrder?.ToLower() == "desc" ? "DESC" : "ASC";
-
-                // ✅ Count query
-                using (var countCmd = new SqlCommand($"SELECT COUNT(*) FROM ApprovalRequests {whereClause}", conn))
-                {
-                    if (!string.IsNullOrEmpty(search))
-                        countCmd.Parameters.AddWithValue("@Search", $"%{search}%");
-                    if (requestIdFilter.HasValue)
-                        countCmd.Parameters.AddWithValue("@RequestIdFilter", $"%{requestIdFilter}%");
-                    if (!string.IsNullOrEmpty(partNameFilter))
-                        countCmd.Parameters.AddWithValue("@PartNameFilter", $"%{partNameFilter}%");
-                    if (!string.IsNullOrEmpty(resultFilter))
-                        countCmd.Parameters.AddWithValue("@ResultFilter", $"%{resultFilter}%");
-                    if (!string.IsNullOrEmpty(partIdFilter))
-                        countCmd.Parameters.AddWithValue("@PartIdFilter", $"%{partIdFilter}%");
-                    if (!string.IsNullOrEmpty(statusFilter))
-                        countCmd.Parameters.AddWithValue("@StatusFilter", $"%{statusFilter}%");
-
-                    totalRecords = Convert.ToInt32(countCmd.ExecuteScalar());
-                }
-
-                int offset = (page - 1) * pageSize;
-
-                using (var cmd = new SqlCommand($@"
-    SELECT *
-    FROM ApprovalRequests
-    {whereClause}
-    ORDER BY {orderBy} {orderDirection}
-    OFFSET @Offset ROWS
-    FETCH NEXT @PageSize ROWS ONLY", conn))
-                {
-                    cmd.Parameters.AddWithValue("@Offset", offset);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
-
-                    if (!string.IsNullOrEmpty(search))
-                        cmd.Parameters.AddWithValue("@Search", $"%{search}%");
-
-                    if (requestIdFilter.HasValue)
-                        cmd.Parameters.AddWithValue("@RequestIdFilter", $"%{requestIdFilter}%");
-
-                    if (!string.IsNullOrEmpty(partNameFilter))
-                        cmd.Parameters.AddWithValue("@PartNameFilter", $"%{partNameFilter}%");
-
-                    if (!string.IsNullOrEmpty(resultFilter))
-                        cmd.Parameters.AddWithValue("@ResultFilter", $"%{resultFilter}%");
-
-                    if (!string.IsNullOrEmpty(partIdFilter))
-                        cmd.Parameters.AddWithValue("@PartIdFilter", $"%{partIdFilter}%");
-
-                    if (!string.IsNullOrEmpty(statusFilter))
-                        cmd.Parameters.AddWithValue("@StatusFilter", $"%{statusFilter}%");
-
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            result.Add(new FinalApproval
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                PartName = reader["PartName"].ToString(),
-                                PartId = reader["PartId"].ToString(),
-                                Status = reader["Status"].ToString(),
-                                Result = reader["Result"].ToString(),
-                                CreatedAt = (DateTime)reader["CreatedAt"],
-                                ActionBySuperVisor = (bool)reader["ActionBySuperVisor"],
-                                ActionByManager = (bool)reader["ActionByManager"],
-                                ActionBySeniorManager = (bool)reader["ActionBySeniorManager"],
-                                SupervisorActionComent = reader["SupervisorActionComent"]?.ToString(),
-                                ManagerActionComent = reader["ManagerActionComent"]?.ToString(),
-                                SeniorManagerActionComent = reader["SeniorManagerActionComent"]?.ToString()
-                            });
-                        }
-                    }
-                }
-
-
-            }
-
-            var response = new
-            {
-                data = result.Select(r => new
-                {
-                    r.Id,
-                    r.PartId,
-                    r.PartName,
-                    r.Status,
-                    r.Result,
-                    r.CreatedAt,
-                    r.ActionBySuperVisor,
-                    r.ActionByManager,
-                    r.ActionBySeniorManager,
-                    r.SupervisorActionComent,
-                    r.ManagerActionComent,
-                    r.SeniorManagerActionComent,
-                    TimeString = r.CreatedAt.ToString("dd-MM-yyyy HH:mm:ss")
-                }),
-                totalRecords
-            };
-
-            return Ok(response);
-
-        }
-
-
-Response Data:
-
-{
-  "data": [
-    {
-      "id": 1,
-      "partId": "p001",
-      "partName": "Part",
-      "status": "Approved",
-      "result": "GOOD",
-      "createdAt": "2025-12-25T12:24:16.49",
-      "actionBySuperVisor": false,
-      "actionByManager": false,
-      "actionBySeniorManager": false,
-      "supervisorActionComent": "",
-      "managerActionComent": "",
-      "seniorManagerActionComent": "",
-      "timeString": "25-12-2025 12:24:16"
-    },
-    {
-      "id": 3,
-      "partId": "PART0002",
-      "partName": "Part 2",
-      "status": "Approved",
-      "result": "GOOD",
-      "createdAt": "2025-12-25T17:40:31.3133333",
-      "actionBySuperVisor": true,
-      "actionByManager": true,
-      "actionBySeniorManager": true,
-      "supervisorActionComent": "Here we go",
-      "managerActionComent": "Here we go",
-      "seniorManagerActionComent": "Here",
-      "timeString": "25-12-2025 17:40:31"
-    },
-    {
-      "id": 4,
-      "partId": "Part0002",
-      "partName": "Part 5",
-      "status": "Rejected",
-      "result": "GOOD",
-      "createdAt": "2025-12-25T18:04:19.3533333",
-      "actionBySuperVisor": false,
-      "actionByManager": false,
-      "actionBySeniorManager": false,
-      "supervisorActionComent": "Demo Supervisor comment",
-      "managerActionComent": "",
-      "seniorManagerActionComent": "",
-      "timeString": "25-12-2025 18:04:19"
-    },
-    {
-      "id": 5,
-      "partId": "PART003",
-      "partName": "Part 5",
-      "status": "SupervisorApproved",
-      "result": "BAD",
-      "createdAt": "2025-12-25T18:06:17.3166667",
-      "actionBySuperVisor": true,
-      "actionByManager": false,
-      "actionBySeniorManager": false,
-      "supervisorActionComent": "GOOD",
-      "managerActionComent": "",
-      "seniorManagerActionComent": "",
-      "timeString": "25-12-2025 18:06:17"
-    },
-    {
-      "id": 6,
-      "partId": "PART001",
-      "partName": "Demo Part",
-      "status": "Approved",
-      "result": "GOOD",
-      "createdAt": "2025-12-25T18:12:00.05",
-      "actionBySuperVisor": true,
-      "actionByManager": true,
-      "actionBySeniorManager": true,
-      "supervisorActionComent": "Demo comment from Supervisor",
-      "managerActionComent": "Demo Comment from Manager",
-      "seniorManagerActionComent": "Demo Comment from Senior Manager",
-      "timeString": "25-12-2025 18:12:00"
-    },
-    {
-      "id": 7,
-      "partId": "PART0007",
-      "partName": "Demo Part 2",
-      "status": "Rejected",
-      "result": "BAD",
-      "createdAt": "2025-12-25T18:14:23.73",
-      "actionBySuperVisor": false,
-      "actionByManager": false,
-      "actionBySeniorManager": false,
-      "supervisorActionComent": "Demo rejection comment",
-      "managerActionComent": "",
-      "seniorManagerActionComent": "",
-      "timeString": "25-12-2025 18:14:23"
-    }
-  ],
-  "totalRecords": 6
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: #fff;
+  padding: 10px;
+}
+
+.inspection-table {
+  border-collapse: collapse;
+  min-width: 1200px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+}
+
+.inspection-table th,
+.inspection-table td {
+  border: 1px solid #000;
+  padding: 4px 6px;
+  vertical-align: middle;
+}
+
+.arrows-cells {
+    font-size: 22px;
+}
+
+.arrows-cells > div {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.inspection-table th {
+  background-color: #f3f3f3;
+  font-weight: bold;
+  text-align: center;
+}
+
+.inspection-table td {
+  text-align: left;
+}
+
+.inspection-table>thead>tr {
+    height: 36px;
+}
+
+.inspection-table td.center {
+  text-align: center;
+  font-weight: bold;
+}
+
+.inspection-table thead tr:first-child th {
+  border-bottom: 2px solid #000;
+}
+
+.inspection-table tbody tr td:nth-child(n+5):nth-child(-n+10) {
+  height: 26px;
+}
+
+.inspection-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.four-cells {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 100%;
+    min-height: 26px;
+}
+
+.four-cells span {
+    border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 0 5px;
+}
+
+.four-cells span:last-child {
+    border-right: none;
+}
+
+.two-cells {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.two-cells span {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.two-cells span:last-child {
+    padding-left: 10px;
+    width: 50px;
+}
+
+.two-cells span:last-child {
+    border-left: 1px solid gray;
+}
+.two-cells-td {
+    width: 250px;
+    height: 26px;
+}
+
+.standard-col {
+    width: 300px;
+}
+
+.srno-col {
+    width: 30px;
+}
+
+.row-inputs {
+    width: 75%;
+    font-size: 14px;
+    padding: 5px;
+    background-color: transparent;
+    border: 0.5px solid gray;
+}
+
+.rows-hash-cells>span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hash-label {
+    width: 100%;
+    /* position: absolute;
+    left: 0;
+    top: 0; */
+}
+
+.four-cells:last-child {
+
+}
+
+.rows-hash-cells {
+    width: 60px;
+    position: relative;
+}
+
+.standard-col-sp {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.standard-col-sp > span:first-child {
+    width: 25%;
+}
+
+.standard-col-sp > span:last-child {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1px;
+    position: relative;
+}
+
+.standard-col-sp > span:last-child > span {
+    position: relative;
+    padding: 0 0 0 5px;
+}
+
+.standard-col-sp > span:last-child > span:first-child {
+    border-bottom: 1px solid rgb(193, 193, 193);
+    width: 100%;
+}
+
+.standard-col-sp>span:last-child>span>span {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #008000;
+    clip-path: polygon(0% 0%, 0% 100%, 100% 0%);
+}
+
+.standard-desc {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 5px 5px 5px;
+    position: absolute;
+    right: 0px;
+    background-color: #fff;
 }
